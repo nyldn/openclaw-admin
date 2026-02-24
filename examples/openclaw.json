@@ -1,0 +1,75 @@
+{
+  // Hardened OpenClaw configuration example
+  // Copy to ~/.openclaw/openclaw.json and customize
+
+  "agent": {
+    // Use Opus 4.6 for best prompt injection resistance
+    "model": "anthropic/claude-opus-4-6",
+    "workspace": "~/.openclaw/workspace",
+    "heartbeat": 30
+  },
+
+  "gateway": {
+    // CRITICAL: bind to loopback only — never 0.0.0.0
+    "host": "127.0.0.1",
+    "port": 18789,
+    "auth": "token"
+  },
+
+  "tools": {
+    "fs": {
+      // Restrict filesystem access to workspace
+      "workspaceOnly": true
+    },
+    "exec": {
+      "applyPatch": {
+        "workspaceOnly": true
+      }
+    },
+    "browser": {
+      // Set headless: true for LXC/Docker/headless servers
+      "headless": false,
+      "noSandbox": false
+    },
+    "sandbox": {
+      // Enable Docker sandboxing for agent tool execution
+      "enabled": true,
+      "readOnly": true,
+      "capDrop": ["ALL"]
+    }
+  },
+
+  "channels": {
+    // Enable only the channels you use
+    "whatsapp": {
+      "enabled": false,
+      "dmPolicy": "paired"
+    },
+    "telegram": {
+      "enabled": false,
+      "dmPolicy": "paired"
+    },
+    "discord": {
+      "enabled": false,
+      "dmPolicy": "paired"
+    },
+    "slack": {
+      "enabled": false,
+      "dmPolicy": "paired"
+    },
+    "signal": {
+      "enabled": false,
+      "dmPolicy": "paired"
+    }
+  },
+
+  "sessions": {
+    "scope": "per-channel-peer"
+  },
+
+  "logging": {
+    "level": "info",
+    "file": true,
+    "console": true
+  }
+}
