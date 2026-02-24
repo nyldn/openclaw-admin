@@ -1,6 +1,8 @@
-# Claw Admin
+# OpenClaw Admin
 
-System administration skill for managing [OpenClaw](https://openclaw.ai) instances across macOS, Ubuntu/Debian, Docker, Oracle OCI, and Proxmox. Works with Claude Code, Gemini CLI, and Codex CLI.
+An AI-powered system administrator for [OpenClaw](https://openclaw.ai) instances. Manages the full lifecycle across **macOS**, **Ubuntu/Debian**, **Docker**, **Oracle OCI**, and **Proxmox** — through natural language.
+
+Works with **Claude Code**, **Gemini CLI**, and **Codex CLI**.
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="MIT License">
@@ -10,138 +12,141 @@ System administration skill for managing [OpenClaw](https://openclaw.ai) instanc
 
 ---
 
-## What It Does
+## Why Use This?
 
-Claw Admin is an AI sysadmin that manages your OpenClaw deployment. It auto-detects your platform, runs diagnostics, handles updates, hardens security, and troubleshoots issues — all through natural language.
+Managing an OpenClaw instance means juggling gateway processes, messaging channels, firewall rules, updates, and security audits across different operating systems. OpenClaw Admin turns your AI coding assistant into a sysadmin that:
 
-**Supported platforms:**
+- **Auto-detects your platform** before running any command
+- **Diagnoses before changing** anything — non-destructive checks first
+- **Verifies after every action** — confirms changes took effect
+- **Blocks dangerous operations** via a safety gate hook
+- **Covers 5 platforms, 6 messaging channels, and the full OpenClaw CLI**
 
-| Platform | What it manages |
-|----------|----------------|
-| macOS | Homebrew, launchd, Application Firewall, FileVault |
-| Ubuntu/Debian | apt, systemd, ufw, journalctl, unattended-upgrades |
-| Docker | docker compose, container health, volumes, log drivers |
-| Oracle OCI | ARM instances, VCN/NSG networking, block volumes, Tailscale |
-| Proxmox | VMs (qm), LXC containers (pct), ZFS, vzdump, clustering |
-
-**OpenClaw management:**
-- Gateway lifecycle: start, stop, restart, status, health, logs
-- Diagnostics: `openclaw doctor`, `openclaw security audit`
-- Configuration: channels, models, agents, sessions, skills, plugins
-- Updates: channel management (stable/beta/dev), backup, rollback
-- Security hardening: loopback binding, token auth, Tailscale, sandbox config
+| What it manages | How |
+|-----------------|-----|
+| **Gateway lifecycle** | Start, stop, restart, health checks, daemon install |
+| **5 platforms** | macOS (launchd), Ubuntu/Debian (systemd), Docker (compose), OCI (ARM), Proxmox (LXC) |
+| **6 channels** | WhatsApp, Telegram, Discord, Slack, Signal, iMessage |
+| **Security** | Audit, hardening, firewall, Tailscale, credential management |
+| **Updates** | Backup, upgrade, rollback, version pinning |
+| **Monitoring** | Logs, health checks, resource usage, diagnostics |
 
 ---
 
-## Quick Start
+## Install
 
 ### Claude Code
 
-Drop `CLAUDE.md` into your project root or home directory:
-
 ```bash
-# Project-level (applies to this project)
+# Add to your project
 cp CLAUDE.md /path/to/your/project/CLAUDE.md
 
-# User-level (applies to all projects)
+# Or add globally (applies to all projects)
 cp CLAUDE.md ~/.claude/CLAUDE.md
-```
-
-Then ask naturally:
-
-```
-Check if my OpenClaw instance is healthy
-Update OpenClaw to latest stable
-Harden my server security
-Set up OpenClaw on Proxmox
 ```
 
 ### Gemini CLI
 
 ```bash
-# Copy the instructions file
 cp GEMINI.md ~/.gemini/GEMINI.md
-
-# Or pass directly
-gemini -p "$(cat GEMINI.md)" "Check my OpenClaw status"
 ```
 
 ### Codex CLI
 
 ```bash
-# Copy the instructions file
 cp CODEX.md ~/.codex/instructions.md
-
-# Or pass directly
-codex -p "$(cat CODEX.md)" "Check my OpenClaw status"
 ```
 
 ### Claude Octopus Plugin
 
-If you use [Claude Octopus](https://github.com/nyldn/claude-octopus), this skill is available as `/octo:claw`:
+If you use [Claude Octopus](https://github.com/nyldn/claude-octopus), this is available as `/octo:claw`:
 
 ```
 /octo:claw check my server health
-/octo:claw update openclaw
-/octo:claw harden my server
+/octo:claw update openclaw to latest
+/octo:claw set up tailscale
 ```
 
 ---
 
-## Platform Guides
+## Then Just Ask
 
-- [macOS Setup](docs/macos.md) — Homebrew, launchd, FileVault
-- [Ubuntu/Debian Setup](docs/ubuntu-debian.md) — apt, systemd, ufw
-- [Docker Setup](docs/docker.md) — Compose, health checks, volumes
-- [Oracle OCI Setup](docs/oracle-oci.md) — ARM free tier, Tailscale
-- [Proxmox Setup](docs/proxmox.md) — LXC, ZFS, clustering
+```
+Check if my OpenClaw instance is healthy
+Update OpenClaw to the latest stable version
+Harden my server security
+Set up OpenClaw on my Proxmox server
+Configure the Telegram channel
+Set up Tailscale for remote access
+```
 
-## Networking & Access
-
-- [Tailscale](docs/tailscale.md) — Serve, Funnel, SSH, ACLs, Docker sidecar, Proxmox TUN
-
-## Channel Integrations
-
-- [Telegram](docs/telegram.md) — BotFather, Grammy, polling vs webhooks
-- [Slack](docs/slack.md) — Bolt, Socket Mode vs HTTP, OAuth scopes, app manifests
-- [OpenClaw Modules Reference](docs/modules.md) — All channels, tools, plugins, scheduler, memory
-
-## Additional Tools
-
-- [gogcli](docs/gogcli.md) — Google Workspace CLI (Drive, Docs, Sheets)
+The AI will detect your platform, run diagnostics, execute the task, and verify the outcome.
 
 ---
 
-## Example Configs
+## Documentation
 
-- [`examples/openclaw.json`](examples/openclaw.json) — Hardened OpenClaw configuration
-- [`examples/docker-compose.yml`](examples/docker-compose.yml) — Production Docker Compose
-- [`examples/proxmox-lxc.sh`](examples/proxmox-lxc.sh) — Automated Proxmox LXC provisioning
+### Platform Guides
+
+| Platform | Guide | What's covered |
+|----------|-------|----------------|
+| macOS | [docs/macos.md](docs/macos.md) | Homebrew, launchd, FileVault, Application Firewall |
+| Ubuntu/Debian | [docs/ubuntu-debian.md](docs/ubuntu-debian.md) | apt, systemd, ufw, SSH hardening, fail2ban |
+| Docker | [docs/docker.md](docs/docker.md) | Compose, health checks, volumes, container security |
+| Oracle OCI | [docs/oracle-oci.md](docs/oracle-oci.md) | ARM free tier, VCN networking, Tailscale |
+| Proxmox | [docs/proxmox.md](docs/proxmox.md) | LXC containers, ZFS, bind mounts, clustering |
+
+### Networking & Channels
+
+| Topic | Guide | What's covered |
+|-------|-------|----------------|
+| Tailscale | [docs/tailscale.md](docs/tailscale.md) | Serve, Funnel, SSH, ACLs, Docker sidecar, Proxmox TUN |
+| Telegram | [docs/telegram.md](docs/telegram.md) | BotFather, Grammy, polling vs webhooks |
+| Slack | [docs/slack.md](docs/slack.md) | Bolt, Socket Mode, OAuth scopes, app manifests |
+| gogcli | [docs/gogcli.md](docs/gogcli.md) | Google Workspace CLI (Drive, Docs, Sheets) |
+| All modules | [docs/modules.md](docs/modules.md) | Complete OpenClaw reference — channels, tools, plugins, scheduler |
+
+### Examples
+
+| File | What it is |
+|------|-----------|
+| [examples/openclaw.json](examples/openclaw.json) | Hardened configuration with comments |
+| [examples/docker-compose.yml](examples/docker-compose.yml) | Production Docker Compose with security defaults |
+| [examples/proxmox-lxc.sh](examples/proxmox-lxc.sh) | Automated Proxmox LXC provisioning script |
 
 ---
 
-## Safety
+## How It Works
 
-Claw Admin includes a [safety gate hook](hooks/sysadmin-safety-gate.sh) that blocks dangerous operations:
+Every instruction file (CLAUDE.md, GEMINI.md, CODEX.md) follows the same methodology:
+
+```
+1. DETECT platform   — never assume the OS
+2. DIAGNOSE first    — non-destructive checks before changes
+3. EXECUTE action    — platform-specific commands
+4. VERIFY outcome    — confirm the change took effect
+```
+
+A [safety gate hook](hooks/sysadmin-safety-gate.sh) blocks dangerous operations in real-time:
 
 - `rm -rf` on system paths
-- Exposing OpenClaw gateway port to the internet
+- Exposing OpenClaw gateway to the internet
 - `docker compose down -v` (destroys volumes)
 - Disabling firewalls entirely
-- Piping unverified scripts to `sudo sh`
-- Destroying Proxmox VMs/containers without confirmation
+- `tailscale funnel` without confirmation
+- Destroying Proxmox VMs/containers
 
 ---
 
-## Repository Structure
+## File Structure
 
 ```
-claw-admin/
-  CLAUDE.md              # Full instructions for Claude Code
-  GEMINI.md              # Full instructions for Gemini CLI
-  CODEX.md               # Full instructions for Codex CLI
-  skill.md               # Portable skill file (used by claude-octopus)
-  persona.md             # Portable persona file (used by claude-octopus)
+openclaw-admin/
+  CLAUDE.md              # Instructions for Claude Code
+  GEMINI.md              # Instructions for Gemini CLI
+  CODEX.md               # Instructions for Codex CLI
+  skill.md               # Portable skill (used by claude-octopus plugin)
+  persona.md             # Portable persona (used by claude-octopus plugin)
   docs/
     macos.md             # macOS platform guide
     ubuntu-debian.md     # Ubuntu/Debian platform guide
@@ -149,26 +154,31 @@ claw-admin/
     oracle-oci.md        # Oracle OCI platform guide
     proxmox.md           # Proxmox VE platform guide
     tailscale.md         # Tailscale networking guide
-    telegram.md          # Telegram channel integration
-    slack.md             # Slack channel integration
+    telegram.md          # Telegram channel setup
+    slack.md             # Slack channel setup
     gogcli.md            # Google Workspace CLI
     modules.md           # Complete OpenClaw modules reference
-  examples/              # Example configurations
-  hooks/                 # Safety gate hooks
+  examples/
+    openclaw.json        # Hardened config example
+    docker-compose.yml   # Production Docker Compose
+    proxmox-lxc.sh       # Automated LXC provisioning
+  hooks/
+    sysadmin-safety-gate.sh  # Blocks dangerous operations
 ```
+
+**CLAUDE.md vs skill.md vs persona.md** — CLAUDE.md (and GEMINI.md, CODEX.md) are standalone instruction files you drop into any project. skill.md and persona.md are structured files used by the [Claude Octopus](https://github.com/nyldn/claude-octopus) plugin system.
 
 ---
 
 ## Integration with Claude Octopus
 
-This repo is the source of truth. Claude Octopus pulls it in as a git submodule:
+This repo is the source of truth for the `/octo:claw` command. Claude Octopus pulls it in as a git submodule:
 
 ```bash
-# In the claude-octopus repo
-git submodule add https://github.com/nyldn/claw-admin.git claw-admin
+git submodule add https://github.com/nyldn/openclaw-admin.git openclaw-admin
 ```
 
-The plugin references `claw-admin/skill.md` and `claw-admin/persona.md` from the submodule.
+The plugin references `openclaw-admin/skill.md` and `openclaw-admin/persona.md` from the submodule.
 
 ---
 

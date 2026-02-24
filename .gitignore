@@ -1,0 +1,25 @@
+# Credentials and secrets
+.env
+.env.*
+credentials/
+*.key
+*.pem
+*.p12
+
+# OpenClaw config with real tokens
+openclaw.json
+!examples/openclaw.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Node
+node_modules/
