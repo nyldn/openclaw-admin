@@ -61,11 +61,11 @@ services:
     volumes:
       - tailscale-state:/var/lib/tailscale
       - /dev/net/tun:/dev/net/tun
+      - ./tailscale-config:/config         # Serve config directory
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}           # Pre-auth key from admin console
       - TS_STATE_DIR=/var/lib/tailscale
-      - TS_SERVE_CONFIG=/config/serve.json
-    # Serve config maps tailnet HTTPS → localhost:18789
+      - TS_SERVE_CONFIG=/config/serve.json # Auto-loaded on container start
 
 volumes:
   tailscale-state:
@@ -112,9 +112,12 @@ tailscale serve status
 
 ### Persistent Serve Configuration
 
+The `tailscale serve` command persists across restarts automatically — there's no need for a separate config file on bare-metal installs. For Docker, use the `TS_SERVE_CONFIG` environment variable:
+
 ```bash
-# Create serve config file
-cat > /etc/tailscale/serve.json << 'EOF'
+# Create serve config for Docker sidecar
+mkdir -p ./tailscale-config
+cat > ./tailscale-config/serve.json << 'EOF'
 {
   "TCP": {
     "443": {
@@ -122,7 +125,7 @@ cat > /etc/tailscale/serve.json << 'EOF'
     }
   },
   "Web": {
-    "openclaw-server.tailnet-name.ts.net:443": {
+    "${TS_CERT_DOMAIN}:443": {
       "Handlers": {
         "/": {
           "Proxy": "http://127.0.0.1:18789"
@@ -133,9 +136,10 @@ cat > /etc/tailscale/serve.json << 'EOF'
 }
 EOF
 
-# Apply
-tailscale serve reset
+# The Tailscale container reads this via TS_SERVE_CONFIG on startup.
+# For bare-metal, just run:
 tailscale serve https / http://127.0.0.1:18789
+# This persists automatically until you run: tailscale serve reset
 ```
 
 ## Tailscale Funnel — Public Internet Access

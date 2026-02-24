@@ -19,6 +19,7 @@ OS=$(uname -s)  # Darwin = macOS, Linux = Ubuntu/Debian/Proxmox
 [ -f /etc/os-release ] && . /etc/os-release && echo "$ID $VERSION_ID"
 [ -f /.dockerenv ] && echo "Docker container"
 command -v pveversion &>/dev/null && echo "Proxmox host"
+[ -f /proc/1/environ ] && grep -q container=lxc /proc/1/environ 2>/dev/null && echo "Proxmox LXC"
 curl -s -m 2 http://169.254.169.254/opc/v2/instance/ -H "Authorization: Bearer Oracle" 2>/dev/null && echo "Oracle OCI"
 ```
 
@@ -37,14 +38,15 @@ curl -s -m 2 http://169.254.169.254/opc/v2/instance/ -H "Authorization: Bearer O
 ```bash
 openclaw status --all              # Full health overview
 openclaw health                    # Gateway health check
-openclaw doctor --fix              # Auto-detect and fix issues
+openclaw doctor                    # Auto-detect issues (non-destructive)
+openclaw doctor --fix              # Auto-fix common issues
 openclaw security audit --deep     # Deep security scan
 openclaw logs --follow             # Live log stream
 ```
 
 ## OpenClaw Updates
 
-1. Backup: `cp -r ~/.openclaw/openclaw.json ~/.openclaw/openclaw.json.bak`
+1. Backup: `cp ~/.openclaw/openclaw.json ~/.openclaw/openclaw.json.bak`
 2. Update: `curl -fsSL https://openclaw.ai/install.sh | bash`
 3. Verify: `openclaw --version && openclaw doctor && openclaw health`
 
@@ -56,6 +58,7 @@ openclaw logs --follow             # Live log stream
 | `~/.openclaw/credentials/` | API keys and auth tokens |
 | `~/.openclaw/workspace/` | Agent workspace data |
 | `~/Library/LaunchAgents/com.openclaw.gateway.plist` | macOS launchd service |
+| `~/.openclaw/sandboxes/` | Sandbox isolation directories |
 | `~/.config/systemd/user/openclaw-gateway.service` | Linux systemd user service |
 
 ## Platform Quick Reference
@@ -131,10 +134,12 @@ openclaw channels dm-allow <channel> user:@name
 
 ## Dangerous Operations — Always Warn First
 
-- `rm -rf` on system paths
-- Exposing port 18789 via firewall
-- `docker compose down -v` (destroys volumes)
-- Disabling firewall entirely
+- `rm -rf` on system paths (`/etc`, `/var`, `/usr`, `/home`, `~`)
+- Exposing port 18789 via firewall rules
+- `docker compose down -v` (destroys all volumes and data)
+- Disabling firewall entirely (`ufw disable`, `pfctl -d`)
+- Flushing iptables rules (`iptables -F`)
 - Piping unverified scripts to `sudo sh`
-- Destroying Proxmox VMs/containers
-- `tailscale funnel` without explicit confirmation
+- Destroying Proxmox VMs/containers (`qm destroy`, `pct destroy`)
+- `tailscale funnel` without explicit confirmation (exposes to public internet)
+- `chmod 777` on any path (world-readable/writable)

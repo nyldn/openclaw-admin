@@ -68,6 +68,18 @@ if echo "$COMMAND" | grep -qE '(qm|pct)\s+destroy'; then
     exit 0
 fi
 
+# 8. Tailscale Funnel (exposes to public internet)
+if echo "$COMMAND" | grep -qE 'tailscale\s+funnel\s+(https?|[0-9])'; then
+    echo '{"decision": "block", "reason": "Sysadmin safety gate: tailscale funnel exposes services to the public internet — use tailscale serve for tailnet-only access"}'
+    exit 0
+fi
+
+# 9. chmod 777 on sensitive paths
+if echo "$COMMAND" | grep -qE 'chmod\s+(-[a-zA-Z]*\s+)*777\s'; then
+    echo '{"decision": "block", "reason": "Sysadmin safety gate: chmod 777 grants world-readable/writable access — use 700 or 750 instead"}'
+    exit 0
+fi
+
 # All checks passed
 echo '{"decision": "continue"}'
 exit 0

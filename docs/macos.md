@@ -58,7 +58,7 @@ brew services list                  # Show managed services
 ```bash
 fdesetup status         # FileVault (full-disk encryption)
 csrutil status          # System Integrity Protection
-spctl --master-enable   # Gatekeeper (app signing)
+spctl --status          # Gatekeeper (assessment status)
 ```
 
 ### System Monitoring

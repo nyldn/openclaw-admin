@@ -45,8 +45,7 @@ services:
           memory: 512M
           cpus: "0.5"
 
-    # Security
-    read_only: false
+    # Security — read_only requires tmpfs for /tmp; omitted for compatibility
     security_opt:
       - no-new-privileges:true
     cap_drop:

@@ -53,7 +53,7 @@ openclaw logs --follow             # Live log stream
 
 ### Updates
 
-1. Backup: `cp -r ~/.openclaw/openclaw.json ~/.openclaw/openclaw.json.bak`
+1. Backup: `cp ~/.openclaw/openclaw.json ~/.openclaw/openclaw.json.bak`
 2. Update: `curl -fsSL https://openclaw.ai/install.sh | bash` (or `npm i -g openclaw@latest`)
 3. Verify: `openclaw --version && openclaw doctor && openclaw health`
 
@@ -105,7 +105,7 @@ diskutil list && diskutil info disk0 | grep SMART
 # Security posture
 fdesetup status          # FileVault
 csrutil status           # SIP
-spctl --master-enable    # Gatekeeper
+spctl --status           # Gatekeeper (assessment status)
 ```
 
 ## Ubuntu/Debian Administration
@@ -304,3 +304,4 @@ Never run these without explicit user confirmation:
 - Piping unverified scripts to `sudo sh`
 - Destroying Proxmox VMs/containers (`qm destroy`, `pct destroy`)
 - `tailscale funnel` without explicit confirmation (exposes to public internet)
+- `chmod 777` on any path (world-readable/writable)

@@ -822,7 +822,6 @@ openclaw gateway restart
 |------|---------|
 | `~/.openclaw/openclaw.json` | Main OpenClaw config (includes Slack) |
 | `~/.openclaw/credentials/slack.json` | Slack tokens (if stored locally) |
-| `/var/log/openclaw.log` | OpenClaw log file |
 
 ### External Resources
 
