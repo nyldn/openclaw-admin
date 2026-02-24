@@ -35,40 +35,36 @@ Managing an OpenClaw instance means juggling gateway processes, messaging channe
 
 ## Install
 
-First, clone this repo (or download the files you need):
+Pick the method that matches your setup. You don't need to clone this repo.
+
+### Claude Code (one-liner)
 
 ```bash
-git clone https://github.com/nyldn/openclaw-admin.git
-cd openclaw-admin
+# Add globally — works in every Claude Code session
+curl -fsSL https://raw.githubusercontent.com/nyldn/openclaw-admin/main/CLAUDE.md -o ~/.claude/CLAUDE.md
 ```
 
-Then copy the instruction file for your AI provider:
-
-### Claude Code
+Or add to a specific project:
 
 ```bash
-# Add to a specific project
-cp CLAUDE.md /path/to/your/project/CLAUDE.md
-
-# Or add globally (applies to all Claude Code sessions)
-cp CLAUDE.md ~/.claude/CLAUDE.md
+curl -fsSL https://raw.githubusercontent.com/nyldn/openclaw-admin/main/CLAUDE.md -o ./CLAUDE.md
 ```
 
-### Gemini CLI
+### Gemini CLI (one-liner)
 
 ```bash
-cp GEMINI.md ~/.gemini/GEMINI.md
+curl -fsSL https://raw.githubusercontent.com/nyldn/openclaw-admin/main/GEMINI.md -o ~/.gemini/GEMINI.md
 ```
 
-### Codex CLI
+### Codex CLI (one-liner)
 
 ```bash
-cp CODEX.md ~/.codex/instructions.md
+curl -fsSL https://raw.githubusercontent.com/nyldn/openclaw-admin/main/CODEX.md -o ~/.codex/instructions.md
 ```
 
-### Claude Octopus Plugin
+### Claude Octopus Plugin (zero install)
 
-If you use [Claude Octopus](https://github.com/nyldn/claude-octopus), this is already bundled as `/octo:claw`:
+If you use [Claude Octopus](https://github.com/nyldn/claude-octopus), this is already bundled — just use `/octo:claw`:
 
 ```
 /octo:claw check my server health
@@ -76,7 +72,13 @@ If you use [Claude Octopus](https://github.com/nyldn/claude-octopus), this is al
 /octo:claw set up tailscale
 ```
 
-No extra install needed — the plugin includes this repo as a submodule.
+### Full repo (for docs, examples, and safety hook)
+
+The one-liners above give you the instruction file only. To get the full documentation, examples, and safety gate hook:
+
+```bash
+git clone https://github.com/nyldn/openclaw-admin.git
+```
 
 ---
 
