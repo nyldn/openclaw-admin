@@ -35,13 +35,22 @@ Managing an OpenClaw instance means juggling gateway processes, messaging channe
 
 ## Install
 
+First, clone this repo (or download the files you need):
+
+```bash
+git clone https://github.com/nyldn/openclaw-admin.git
+cd openclaw-admin
+```
+
+Then copy the instruction file for your AI provider:
+
 ### Claude Code
 
 ```bash
-# Add to your project
+# Add to a specific project
 cp CLAUDE.md /path/to/your/project/CLAUDE.md
 
-# Or add globally (applies to all projects)
+# Or add globally (applies to all Claude Code sessions)
 cp CLAUDE.md ~/.claude/CLAUDE.md
 ```
 
@@ -59,13 +68,15 @@ cp CODEX.md ~/.codex/instructions.md
 
 ### Claude Octopus Plugin
 
-If you use [Claude Octopus](https://github.com/nyldn/claude-octopus), this is available as `/octo:claw`:
+If you use [Claude Octopus](https://github.com/nyldn/claude-octopus), this is already bundled as `/octo:claw`:
 
 ```
 /octo:claw check my server health
 /octo:claw update openclaw to latest
 /octo:claw set up tailscale
 ```
+
+No extra install needed — the plugin includes this repo as a submodule.
 
 ---
 
@@ -80,7 +91,7 @@ Configure the Telegram channel
 Set up Tailscale for remote access
 ```
 
-The AI will detect your platform, run diagnostics, execute the task, and verify the outcome.
+The instruction files teach the AI to detect your platform, run diagnostics, execute the task, and verify the outcome. How well it follows through depends on the model — Claude Opus and Sonnet handle it reliably; smaller models may need more guidance.
 
 ---
 
