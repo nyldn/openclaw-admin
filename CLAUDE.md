@@ -209,6 +209,77 @@ vzdump <vmid> --mode snapshot --compress zstd
 # - Tailscale for remote access (never expose 18789)
 ```
 
+## Tailscale Administration
+
+```bash
+# Install
+curl -fsSL https://tailscale.com/install.sh | sh   # Linux
+brew install --cask tailscale                        # macOS
+
+# Connect to tailnet
+tailscale up
+tailscale up --ssh                # Enable Tailscale SSH
+
+# Expose OpenClaw to tailnet (HTTPS)
+tailscale serve https / http://127.0.0.1:18789
+tailscale serve status
+
+# Diagnostics
+tailscale status                  # Connected devices
+tailscale ping <hostname>         # Test connectivity
+tailscale netcheck                # Network diagnostics
+
+# Proxmox LXC: add TUN device to /etc/pve/lxc/<CTID>.conf:
+# lxc.cdev.allow: c 10:200 rwm
+# lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
+
+# Docker: use sidecar pattern with network_mode: "service:tailscale"
+```
+
+**Never use Tailscale Funnel for general OpenClaw access** — only for webhook endpoints that require public HTTPS.
+
+## Channel Management
+
+### Supported Channels
+
+| Channel | Library | Setup |
+|---------|---------|-------|
+| WhatsApp | Baileys | `openclaw channels login whatsapp` (QR code pairing) |
+| Telegram | Grammy | BotFather token → `openclaw config set channels.telegram.botToken` |
+| Discord | discord.js | Bot token from Discord Developer Portal |
+| Slack | Bolt | App manifest + bot token + app token (Socket Mode) |
+| Signal | signal-cli | `openclaw channels login signal` (linked device) |
+
+### Channel Commands
+
+```bash
+openclaw channels list              # List all channels
+openclaw channels status            # Check connectivity
+openclaw channels status <channel>  # Check specific channel
+openclaw channels add <channel>     # Add a channel
+openclaw channels remove <channel>  # Remove a channel
+openclaw channels login <channel>   # Authenticate
+openclaw channels dm-allow <ch> user:@name  # Approve DM user
+openclaw channels info <ch> --dm-list       # List approved users
+```
+
+## gogcli — Google Workspace CLI
+
+```bash
+# Install
+curl -fsSL https://gogcli.sh/install.sh | bash
+
+# Authenticate
+gogcli auth login
+gogcli auth status
+
+# Common operations
+gogcli drive list
+gogcli drive search "query"
+gogcli docs read <doc-id>
+gogcli sheets export <sheet-id> --format csv
+```
+
 ## Security Hardening Checklist
 
 1. Gateway loopback only — `127.0.0.1` / `::1`, never public
@@ -232,3 +303,4 @@ Never run these without explicit user confirmation:
 - Flushing iptables rules (`iptables -F`)
 - Piping unverified scripts to `sudo sh`
 - Destroying Proxmox VMs/containers (`qm destroy`, `pct destroy`)
+- `tailscale funnel` without explicit confirmation (exposes to public internet)

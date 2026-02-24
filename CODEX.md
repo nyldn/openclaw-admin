@@ -89,6 +89,33 @@ openclaw logs --follow             # Live log stream
 - Storage: `pvesm status`, `zpool status/scrub`
 - Backup: `vzdump <id> --mode snapshot --compress zstd`
 
+## Tailscale
+
+```bash
+tailscale up                                          # Connect
+tailscale serve https / http://127.0.0.1:18789       # Expose to tailnet
+tailscale serve status                                # Check serve config
+tailscale status                                      # Connected devices
+tailscale netcheck                                    # Diagnostics
+```
+
+Never use `tailscale funnel` for general access — Serve limits to your tailnet.
+
+## Channels
+
+| Channel | Library | Key Command |
+|---------|---------|-------------|
+| WhatsApp | Baileys | `openclaw channels login whatsapp` |
+| Telegram | Grammy | Token from @BotFather |
+| Discord | discord.js | Token from Developer Portal |
+| Slack | Bolt | App manifest + Socket Mode tokens |
+| Signal | signal-cli | `openclaw channels login signal` |
+
+```bash
+openclaw channels list/status/add/remove/login/logout
+openclaw channels dm-allow <channel> user:@name
+```
+
 ## Security Hardening
 
 1. Gateway loopback only (127.0.0.1)
@@ -110,3 +137,4 @@ openclaw logs --follow             # Live log stream
 - Disabling firewall entirely
 - Piping unverified scripts to `sudo sh`
 - Destroying Proxmox VMs/containers
+- `tailscale funnel` without explicit confirmation

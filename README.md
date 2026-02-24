@@ -96,6 +96,20 @@ If you use [Claude Octopus](https://github.com/nyldn/claude-octopus), this skill
 - [Oracle OCI Setup](docs/oracle-oci.md) — ARM free tier, Tailscale
 - [Proxmox Setup](docs/proxmox.md) — LXC, ZFS, clustering
 
+## Networking & Access
+
+- [Tailscale](docs/tailscale.md) — Serve, Funnel, SSH, ACLs, Docker sidecar, Proxmox TUN
+
+## Channel Integrations
+
+- [Telegram](docs/telegram.md) — BotFather, Grammy, polling vs webhooks
+- [Slack](docs/slack.md) — Bolt, Socket Mode vs HTTP, OAuth scopes, app manifests
+- [OpenClaw Modules Reference](docs/modules.md) — All channels, tools, plugins, scheduler, memory
+
+## Additional Tools
+
+- [gogcli](docs/gogcli.md) — Google Workspace CLI (Drive, Docs, Sheets)
+
 ---
 
 ## Example Configs
@@ -128,7 +142,17 @@ claw-admin/
   CODEX.md               # Full instructions for Codex CLI
   skill.md               # Portable skill file (used by claude-octopus)
   persona.md             # Portable persona file (used by claude-octopus)
-  docs/                  # Platform-specific setup guides
+  docs/
+    macos.md             # macOS platform guide
+    ubuntu-debian.md     # Ubuntu/Debian platform guide
+    docker.md            # Docker platform guide
+    oracle-oci.md        # Oracle OCI platform guide
+    proxmox.md           # Proxmox VE platform guide
+    tailscale.md         # Tailscale networking guide
+    telegram.md          # Telegram channel integration
+    slack.md             # Slack channel integration
+    gogcli.md            # Google Workspace CLI
+    modules.md           # Complete OpenClaw modules reference
   examples/              # Example configurations
   hooks/                 # Safety gate hooks
 ```
