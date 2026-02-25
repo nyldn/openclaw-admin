@@ -35,32 +35,19 @@ Managing an OpenClaw instance means juggling gateway processes, messaging channe
 
 ## Install
 
-Pick the method that matches your setup. You don't need to clone this repo.
-
-### Claude Code (one-liner)
+### Recommended: skills.sh (all agents)
 
 ```bash
-# Add globally — works in every Claude Code session
-curl -fsSL https://raw.githubusercontent.com/nyldn/openclaw-admin/main/CLAUDE.md -o ~/.claude/CLAUDE.md
+npx skills add https://github.com/nyldn/openclaw-admin
 ```
 
-Or add to a specific project:
+This interactively installs for your preferred agent(s) — Claude Code, Gemini CLI, Codex CLI, Cursor, and 30+ others. Use `-g` for global install:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nyldn/openclaw-admin/main/CLAUDE.md -o ./CLAUDE.md
+npx skills add -g https://github.com/nyldn/openclaw-admin
 ```
 
-### Gemini CLI (one-liner)
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/nyldn/openclaw-admin/main/GEMINI.md -o ~/.gemini/GEMINI.md
-```
-
-### Codex CLI (one-liner)
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/nyldn/openclaw-admin/main/CODEX.md -o ~/.codex/instructions.md
-```
+Update later with `npx skills update`.
 
 ### Claude Octopus Plugin (zero install)
 
@@ -72,9 +59,22 @@ If you use [Claude Octopus](https://github.com/nyldn/claude-octopus), this is al
 /octo:claw set up tailscale
 ```
 
-### Full repo (for docs, examples, and safety hook)
+### Manual (single agent)
 
-The one-liners above give you the instruction file only. To get the full documentation, examples, and safety gate hook:
+If you prefer not to use skills.sh:
+
+```bash
+# Claude Code
+curl -fsSL https://raw.githubusercontent.com/nyldn/openclaw-admin/main/CLAUDE.md -o ~/.claude/CLAUDE.md
+
+# Gemini CLI
+curl -fsSL https://raw.githubusercontent.com/nyldn/openclaw-admin/main/GEMINI.md -o ~/.gemini/GEMINI.md
+
+# Codex CLI
+curl -fsSL https://raw.githubusercontent.com/nyldn/openclaw-admin/main/CODEX.md -o ~/.codex/instructions.md
+```
+
+### Full repo (for docs, examples, and safety hook)
 
 ```bash
 git clone https://github.com/nyldn/openclaw-admin.git
@@ -158,7 +158,7 @@ openclaw-admin/
   CLAUDE.md              # Instructions for Claude Code
   GEMINI.md              # Instructions for Gemini CLI
   CODEX.md               # Instructions for Codex CLI
-  skill.md               # Portable skill (used by claude-octopus plugin)
+  SKILL.md               # Portable skill (discovered by skills.sh and claude-octopus)
   persona.md             # Portable persona (used by claude-octopus plugin)
   docs/
     macos.md             # macOS platform guide
@@ -179,7 +179,7 @@ openclaw-admin/
     sysadmin-safety-gate.sh  # Blocks dangerous operations
 ```
 
-**CLAUDE.md vs skill.md vs persona.md** — CLAUDE.md (and GEMINI.md, CODEX.md) are standalone instruction files you drop into any project. skill.md and persona.md are structured files used by the [Claude Octopus](https://github.com/nyldn/claude-octopus) plugin system.
+**CLAUDE.md vs SKILL.md vs persona.md** — CLAUDE.md (and GEMINI.md, CODEX.md) are standalone instruction files you drop into any project. SKILL.md and persona.md are structured files used by [skills.sh](https://skills.sh) and the [Claude Octopus](https://github.com/nyldn/claude-octopus) plugin system.
 
 ---
 
@@ -191,7 +191,7 @@ This repo is the source of truth for the `/octo:claw` command. Claude Octopus pu
 git submodule add https://github.com/nyldn/openclaw-admin.git openclaw-admin
 ```
 
-The plugin references `openclaw-admin/skill.md` and `openclaw-admin/persona.md` from the submodule.
+The plugin references `openclaw-admin/SKILL.md` and `openclaw-admin/persona.md` from the submodule.
 
 ---
 
